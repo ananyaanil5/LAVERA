@@ -1,0 +1,46 @@
+/* LAVÉRA Design Tokens - Luxury Editorial Light System */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Brand Core Palette */
+  --color-porcelain: #F7F5F0;     /* Primary base background */
+  --color-warm-ivory: #FBFAF7;    /* Elevated card & panel surface */
+  --color-obsidian: #171717;      /* Primary high-contrast text */
+  --color-soft-charcoal: #333333; /* Secondary editorial text */
+  --color-champagne: #C6A66A;     /* Signature subtle luxury accent */
+  --color-muted-gold: #B89A5E;    /* Active gold state */
+  --color-stone: #D8D4CC;         /* Hairline borders & dividers */
+  --color-stone-light: #EBE8E1;   /* Softest divider */
+  --color-soft-grey: #8A8780;     /* Micro-labels, metadata, timestamps */
+  --color-white: #FFFFFF;         /* Pure white elevation */
+
+  /* Semantic Tones (Muted luxury variants) */
+  --color-success: #4A6B53;
+  --color-success-bg: #F0F5F2;
+  --color-alert: #9C4B3D;
+  --color-alert-bg: #FAF2F0;
+  --color-warning: #B38634;
+  --color-warning-bg: #FCF8F0;
+
+  /* Typography Hierarchy */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Elevations & Shadows */
+  --shadow-subtle: 0 4px 20px rgba(23, 23, 23, 0.03);
+  --shadow-hover: 0 10px 30px rgba(23, 23, 23, 0.06);
+  --shadow-modal: 0 20px 60px rgba(23, 23, 23, 0.12);
+
+  /* Borders & Radii */
+  --border-hairline: 1px solid var(--color-stone);
+  --border-light: 1px solid var(--color-stone-light);
+  --border-champagne: 1px solid var(--color-champagne);
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}

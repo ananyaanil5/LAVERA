@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAVÉRA — Care, Curated. Intelligent Garment Care.</title>
+    <meta name="description" content="LAVÉRA combines intelligent garment analysis with expert care to preserve what you wear, one garment at a time. Digital twins, longevity models, and operations intelligence.">
+    <meta name="theme-color" content="#F7F5F0">
+
+    <!-- Google Fonts: Cormorant Garamond & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Design System CSS — load order matters -->
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <!-- Splash screen styles (loaded first so it blocks correctly) -->
+    <link rel="stylesheet" href="/css/splash.css">
+    <!-- Responsive overrides (load last so they take precedence) -->
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+    <!-- ================================================
+         LAVÉRA PREMIUM SPLASH SCREEN
+         Appears once on initial page load only
+         ================================================ -->
+    <div id="lavera-splash" role="dialog" aria-label="LAVÉRA Loading" aria-modal="true">
+        <!-- Decorative corner marks -->
+        <div class="splash-corner tl" aria-hidden="true"></div>
+        <div class="splash-corner tr" aria-hidden="true"></div>
+        <div class="splash-corner bl" aria-hidden="true"></div>
+        <div class="splash-corner br" aria-hidden="true"></div>
+
+        <!-- Decorative horizontal rules -->
+        <div class="splash-rule-top"  aria-hidden="true"></div>
+        <div class="splash-rule-bottom" aria-hidden="true"></div>
+
+        <!-- Official LAVÉRA Logo (contains name + taglines) -->
+        <div class="splash-logo-wrap">
+            <img
+                src="/assets/images/lavera-logo.jpg"
+                alt="LAVÉRA — Care, Curated. Intelligent Garment Care."
+                draggable="false"
+            />
+        </div>
+
+        <!-- Thin champagne divider -->
+        <div class="splash-divider" aria-hidden="true"></div>
+
+        <!-- Progress bar -->
+        <div class="splash-progress-track" aria-hidden="true">
+            <div class="splash-progress-fill"></div>
+        </div>
+
+        <!-- Desktop: "press any key" -->
+        <p class="splash-enter-hint" id="splashHint" aria-live="polite">
+            <span class="blink">—</span>&nbsp;&nbsp;Press any key to enter&nbsp;&nbsp;<span class="blink">—</span>
+        </p>
+
+        <!-- Mobile/touch: tap button -->
+        <button class="splash-enter-btn" id="splashBtn" onclick="Splash.enter()" aria-label="Enter LAVÉRA">
+            Enter LAVÉRA
+        </button>
+    </div>
+
+    <!-- ================================================
+         APP SHELL LAYOUT
+         ================================================ -->
+    <div class="app-layout">
+        <!-- Persistent Authenticated App Header (Toggled by Router) -->
+        <header id="appMainHeader" style="display: none;" role="banner"></header>
+
+        <!-- Dynamic Main Content Area -->
+        <main id="mainContentArea" class="dashboard-main" role="main"></main>
+    </div>
+
+    <!-- ================= AUTHENTICATION MODAL ================= -->
+    <div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                <img
+                    src="/assets/images/lavera-logo.jpg"
+                    alt="LAVÉRA"
+                    style="width: 110px; height: auto; display: block;"
+                />
+                <button class="btn btn-ghost" onclick="App.closeModal('authModal')" aria-label="Close" style="font-size: 1.25rem;">✕</button>
+            </div>
+
+            <h2 id="authModalTitle" style="font-size: 1.8rem; margin-bottom: 0.35rem;">Client &amp; Atelier Sign In</h2>
+            <p style="font-size: 0.85rem; color: var(--color-soft-grey); margin-bottom: 1.75rem;">
+                Access your curated wardrobe DNA and active atelier orders.
+            </p>
+
+            <form onsubmit="App.handleLoginSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="client@lavera.com" value="demo@lavera.com" required autocomplete="email" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" value="Demo@123" required autocomplete="current-password" />
+                </div>
+
+                <div id="loginError" style="color: var(--color-alert); font-size: 0.8rem; margin-bottom: 1rem;" role="alert"></div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1.5rem;">
+                    SIGN IN TO ATELIER
+                </button>
+            </form>
+
+            <!-- One-click demo credentials -->
+            <div style="background-color: var(--color-warm-ivory); border: var(--border-light); padding: 1rem; border-radius: 2px;">
+                <div style="font-size: 0.72rem; color: var(--color-champagne); font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;">
+                    ✦ ONE-CLICK DEMO ACCOUNTS
+                </div>
+                <div class="flex gap-2" style="flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="App.demoLogin('demo@lavera.com', 'Demo@123')">
+                        Customer (Ananya)
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="App.demoLogin('admin@lavera.com', 'Admin@123')">
+                        Admin (Alain)
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="App.demoLogin('manager@lavera.com', 'Admin@123')">
+                        Manager (Claire)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= BOOK A SERVICE / CREATE ORDER MODAL ================= -->
+    <div class="modal-overlay" id="createOrderModal" role="dialog" aria-modal="true" aria-labelledby="createOrderTitle">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                <div>
+                    <span class="eyebrow" style="margin: 0;">BESPOKE CARE BOOKING</span>
+                    <h2 id="createOrderTitle" style="font-size: 1.8rem; margin-top: 0.25rem;">Book a Service</h2>
+                </div>
+                <button class="btn btn-ghost" onclick="App.closeModal('createOrderModal')" aria-label="Close">✕</button>
+            </div>
+
+            <form onsubmit="App.handleOrderSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" for="orderServiceType">Service Treatment Tier</label>
+                    <select id="orderServiceType" class="form-select" onchange="App.recalculateOrderPrice()">
+                        <option value="Premium Garment Care" selected>Premium Garment Care (₹65 / garment)</option>
+                        <option value="Delicate Care">Delicate Care (₹45 / garment)</option>
+                        <option value="Dry Cleaning">Bespoke Solvent Dry Cleaning (₹85 / garment)</option>
+                        <option value="Wash & Fold">Wash &amp; Fold (₹45 / garment)</option>
+                        <option value="Ironing">Artisanal Hand Ironing (₹45 / garment)</option>
+                        <option value="Express Care">Express Care (Same-Day) (₹85 / garment)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Garments from Wardrobe</label>
+                    <div id="orderGarmentsSelector" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem; padding: 0.5rem; background: var(--color-porcelain); border: var(--border-light); border-radius: 2px;">
+                        <!-- Injected dynamically -->
+                    </div>
+                </div>
+
+                <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="orderPickupDate">Pickup Date</label>
+                        <input type="text" id="orderPickupDate" class="form-input" value="Tomorrow, 09:30 AM" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="orderTimeSlot">Time Window</label>
+                        <select id="orderTimeSlot" class="form-select">
+                            <option value="Morning 09:00 - 11:00" selected>Morning 09:00 - 11:00</option>
+                            <option value="Afternoon 13:00 - 15:00">Afternoon 13:00 - 15:00</option>
+                            <option value="Evening 17:00 - 19:00">Evening 17:00 - 19:00</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="orderInstructions">Special Care Directives</label>
+                    <input type="text" id="orderInstructions" class="form-input" placeholder="e.g. Inspect cuffs, delicate cold surfactant only" value="Delicate wash with cedar block packaging." />
+                </div>
+
+                <!-- Price Summary Bar -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background-color: var(--color-warm-ivory); border: var(--border-light); border-radius: 2px; margin: 1.5rem 0;">
+                    <div>
+                        <div style="font-size: 0.68rem; color: var(--color-soft-grey); text-transform: uppercase;">SELECTED BATCH</div>
+                        <div id="orderSelectedCount" style="font-size: 0.95rem; font-weight: 600;">9 Garments</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.68rem; color: var(--color-soft-grey); text-transform: uppercase;">ESTIMATED TOTAL</div>
+                        <div id="orderEstimatedTotal" style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--color-champagne); font-weight: 600;">₹399</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    CONFIRM BOOKING &amp; INITIALIZE CUSTODY
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= REGISTER NEW GARMENT MODAL ================= -->
+    <div class="modal-overlay" id="newGarmentModal" role="dialog" aria-modal="true">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                <div>
+                    <span class="eyebrow" style="margin: 0;">DIGITAL TWIN REGISTRATION</span>
+                    <h2 style="font-size: 1.8rem; margin-top: 0.25rem;">Register New Garment</h2>
+                </div>
+                <button class="btn btn-ghost" onclick="App.closeModal('newGarmentModal')" aria-label="Close">✕</button>
+            </div>
+
+            <form onsubmit="App.handleNewGarmentSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" for="newGarmentName">Garment Description</label>
+                    <input type="text" id="newGarmentName" class="form-input" placeholder="e.g. Ivory Silk Satin Blouse" required />
+                </div>
+
+                <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="newGarmentBrand">Brand / Designer</label>
+                        <input type="text" id="newGarmentBrand" class="form-input" placeholder="e.g. Céline Atelier" value="Bespoke Private Label" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="newGarmentFabric">Fabric Composition</label>
+                        <input type="text" id="newGarmentFabric" class="form-input" placeholder="e.g. 100% Mulberry Silk" value="100% Egyptian Cotton" required />
+                    </div>
+                </div>
+
+                <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="newGarmentColor">Color</label>
+                        <input type="text" id="newGarmentColor" class="form-input" placeholder="e.g. Ivory Champagne" value="Pristine White" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="newGarmentSize">Size</label>
+                        <input type="text" id="newGarmentSize" class="form-input" placeholder="e.g. M, 40R" value="M" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="newGarmentImage">Photograph (Optional)</label>
+                    <input type="file" id="newGarmentImage" class="form-input" accept="image/*" />
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    CREATE GARMENT DNA
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= DAMAGE INSPECTION MODAL ================= -->
+    <div class="modal-overlay" id="inspectionModal" role="dialog" aria-modal="true">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center" style="margin-bottom: 1.5rem;">
+                <div>
+                    <span class="eyebrow" style="margin: 0;">PRE-EXISTING DAMAGE SCAN</span>
+                    <h2 style="font-size: 1.8rem; margin-top: 0.25rem;">Upload Garment Inspection</h2>
+                </div>
+                <button class="btn btn-ghost" onclick="App.closeModal('inspectionModal')" aria-label="Close">✕</button>
+            </div>
+
+            <form onsubmit="App.handleInspectionSubmit(event)">
+                <input type="hidden" id="inspectionGarmentId" value="LV-GX-82941" />
+                <p style="font-size: 0.85rem; color: var(--color-soft-charcoal); margin-bottom: 1.5rem;">
+                    Upload a high-resolution snapshot before laundering. The computer vision layer scans for abrasions, seam tension, and stains.
+                </p>
+                <div class="form-group">
+                    <label class="form-label" for="inspectionFileInput">Inspection Photo</label>
+                    <input type="file" id="inspectionFileInput" class="form-input" accept="image/*" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    LOG BEFORE-CARE INSPECTION
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================================================
+         SPLASH SCREEN CONTROLLER (inline for zero-latency)
+         ================================================ -->
+    <script>
+    const Splash = {
+        entered: false,
+
+        init() {
+            // Only show splash on hard page load — not on SPA navigation
+            const splash = document.getElementById('lavera-splash');
+            if (!splash) return;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('nosplash') === '1') {
+                splash.remove();
+                return;
+            }
+
+            // When progress bar finishes (~2.5s), display instruction and attach interactive triggers
+            setTimeout(() => {
+                const hint = document.getElementById('splashHint');
+                const btn  = document.getElementById('splashBtn');
+                if (hint) hint.classList.add('visible');
+                if (btn)  btn.classList.add('visible');
+
+                // Desktop: listen for any keypress
+                document.addEventListener('keydown', this._onKey.bind(this), { once: true });
+                
+                // Allow tap/click on splash screen to enter as well
+                splash.style.cursor = 'pointer';
+                splash.addEventListener('click', (e) => {
+                    this.enter();
+                }, { once: true });
+            }, 2500);
+        },
+
+        _onKey(e) {
+            // Ignore modifier-only keys
+            if (['Meta', 'Control', 'Alt', 'Shift', 'Tab', 'CapsLock'].includes(e.key)) return;
+            this.enter();
+        },
+
+        enter() {
+            if (this.entered) return;
+            this.entered = true;
+
+            const splash = document.getElementById('lavera-splash');
+            if (splash) {
+                splash.classList.add('splash-exit');
+                // Remove from DOM after transition to free up memory
+                setTimeout(() => {
+                    splash.remove();
+                }, 900);
+            }
+
+            // Remove keyboard listener if it's still attached
+            document.removeEventListener('keydown', this._onKey);
+        }
+    };
+
+    // Initialize splash immediately
+    Splash.init();
+    </script>
+
+    <!-- Application Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/store.js"></script>
+    <script src="/js/views/landingView.js"></script>
+    <script src="/js/views/customerDashboardView.js"></script>
+    <script src="/js/views/garmentDnaView.js"></script>
+    <script src="/js/views/findMyGarmentView.js"></script>
+    <script src="/js/views/virtualCareLabView.js"></script>
+    <script src="/js/views/orderManagementView.js"></script>
+    <script src="/js/views/aiLaundryManagerView.js"></script>
+    <script src="/js/views/adminDashboardView.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

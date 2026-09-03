@@ -1,0 +1,143 @@
+/* Global Reset & Base Styling */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  background-color: var(--color-porcelain);
+  color: var(--color-obsidian);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-porcelain);
+  color: var(--color-obsidian);
+  line-height: 1.55;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom Editorial Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-porcelain);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-stone);
+  border-radius: var(--radius-xs);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-soft-grey);
+}
+
+/* Typography Scale */
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  color: var(--color-obsidian);
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  line-height: 1.08;
+}
+
+h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.15;
+}
+
+h3 {
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1.25;
+}
+
+p {
+  color: var(--color-soft-charcoal);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  color: var(--color-champagne);
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
+.subtext-editorial {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--color-soft-charcoal);
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* Layout Utilities */
+.container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.flex-col { flex-direction: column; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+.gap-4 { gap: 2rem; }
+
+/* Micro-animations */
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Screen Reader Only Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

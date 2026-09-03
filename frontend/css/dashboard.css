@@ -1,0 +1,515 @@
+/* Dashboard & Application Styles - High-End Luxury Tech Platform */
+
+/* Dashboard Layout */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  background-color: var(--color-white);
+  border-bottom: var(--border-hairline);
+  padding: 1rem 2.5rem;
+  position: relative; /* Required for mobile nav absolute dropdown */
+}
+
+.dashboard-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: var(--border-light);
+  padding: 0 2.5rem;
+  background-color: var(--color-porcelain);
+  overflow-x: auto;
+}
+
+.dashboard-tabs {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.dash-tab {
+  padding: 1rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-soft-charcoal);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.dash-tab:hover, .dash-tab.active {
+  color: var(--color-obsidian);
+  border-bottom-color: var(--color-champagne);
+}
+
+.dashboard-main {
+  flex-grow: 1;
+  padding: 2.5rem;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Greeting & Hero Header */
+.greeting-header {
+  margin-bottom: 2.5rem;
+}
+
+.greeting-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  color: var(--color-obsidian);
+  margin-bottom: 0.25rem;
+}
+
+.greeting-sub {
+  font-size: 0.95rem;
+  color: var(--color-soft-charcoal);
+  font-weight: 300;
+}
+
+/* Statistics Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background-color: var(--color-white);
+  border: var(--border-hairline);
+  padding: 1.5rem 1.75rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-subtle);
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  color: var(--color-soft-grey);
+  margin-bottom: 0.75rem;
+}
+
+.stat-value {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--color-obsidian);
+}
+
+.stat-footnote {
+  margin-top: 0.75rem;
+  font-size: 0.76rem;
+  color: var(--color-champagne);
+}
+
+/* Garment DNA Card & Grid */
+.garments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.garment-card {
+  background-color: var(--color-white);
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.garment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-champagne);
+}
+
+.garment-thumb-wrap {
+  width: 100%;
+  height: 260px;
+  background-color: var(--color-warm-ivory);
+  overflow: hidden;
+  position: relative;
+}
+
+.garment-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.garment-card:hover .garment-thumb {
+  transform: scale(1.04);
+}
+
+.garment-card-body {
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex-grow: 1;
+}
+
+.garment-id-badge {
+  font-size: 0.68rem;
+  font-family: monospace;
+  color: var(--color-soft-grey);
+  letter-spacing: 0.08em;
+}
+
+.garment-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--color-obsidian);
+}
+
+/* Garment DNA Detail Modal / View */
+.dna-view-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.dna-spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.dna-spec-table td {
+  padding: 0.75rem 0;
+  border-bottom: var(--border-light);
+  font-size: 0.88rem;
+}
+
+.dna-spec-table td:first-child {
+  color: var(--color-soft-grey);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  width: 40%;
+}
+
+.dna-health-indicator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background-color: var(--color-warm-ivory);
+  border: var(--border-light);
+  border-radius: var(--radius-xs);
+  margin: 1.5rem 0;
+}
+
+.health-gauge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid var(--color-champagne);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--color-obsidian);
+}
+
+/* Aging Predictor Chart & Simulation */
+.aging-chart-box {
+  background-color: var(--color-warm-ivory);
+  border: var(--border-hairline);
+  padding: 1.5rem;
+  border-radius: var(--radius-xs);
+  margin: 1.5rem 0;
+}
+
+.aging-projections-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 1.25rem 0;
+  text-align: center;
+}
+
+.projection-pill {
+  background: var(--color-white);
+  border: var(--border-light);
+  padding: 0.85rem 0.5rem;
+  border-radius: var(--radius-xs);
+}
+
+.projection-pill .val {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--color-obsidian);
+}
+
+.projection-pill .lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: var(--color-soft-grey);
+  letter-spacing: 0.08em;
+  margin-top: 0.25rem;
+}
+
+/* Find My Garment */
+.find-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.match-result-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2.5rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-champagne);
+  padding: 2.5rem;
+  border-radius: var(--radius-sm);
+  margin-top: 2rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+.match-photo-wrap {
+  width: 100%;
+  height: 320px;
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  background-color: var(--color-warm-ivory);
+}
+
+.match-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.match-confidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(198, 166, 106, 0.15);
+  border: 1px solid var(--color-champagne);
+  color: var(--color-obsidian);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-xs);
+}
+
+/* AI Laundry Manager Console */
+.ai-console {
+  background-color: var(--color-white);
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+.suggested-queries-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.query-chip {
+  background-color: var(--color-warm-ivory);
+  border: var(--border-light);
+  padding: 0.55rem 1rem;
+  font-size: 0.78rem;
+  color: var(--color-soft-charcoal);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.query-chip:hover {
+  border-color: var(--color-champagne);
+  background-color: rgba(198, 166, 106, 0.08);
+  color: var(--color-obsidian);
+}
+
+.ai-response-box {
+  background-color: var(--color-warm-ivory);
+  border-left: 3px solid var(--color-champagne);
+  padding: 2rem;
+  border-radius: var(--radius-xs);
+  margin-top: 1.5rem;
+}
+
+.diagnostic-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.diagnostic-cell {
+  background-color: var(--color-white);
+  border: var(--border-light);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-xs);
+}
+
+.diagnostic-cell.alert {
+  border-color: rgba(156, 75, 61, 0.4);
+  background-color: var(--color-alert-bg);
+}
+
+/* Machine Hub */
+.machines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.75rem;
+}
+
+.machine-card {
+  background-color: var(--color-white);
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: 1.5rem;
+}
+
+.machine-card.overloaded {
+  border-color: var(--color-alert);
+}
+
+.capacity-track {
+  width: 100%;
+  height: 6px;
+  background-color: var(--color-porcelain);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.75rem 0;
+}
+
+.capacity-fill {
+  height: 100%;
+  background-color: var(--color-champagne);
+  transition: width 0.6s ease;
+}
+
+.capacity-fill.high {
+  background-color: var(--color-alert);
+}
+
+/* Notification Bell & Dropdown */
+.notif-bell-wrap {
+  position: relative;
+  cursor: pointer;
+}
+
+.notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-champagne);
+  color: var(--color-obsidian);
+  font-size: 0.62rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-drawer {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 380px;
+  background: var(--color-white);
+  border: var(--border-hairline);
+  box-shadow: var(--shadow-modal);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  z-index: 500;
+  display: none;
+}
+
+.notif-drawer.open {
+  display: block;
+}
+
+/* Demo Mode Helper Bar */
+.demo-helper-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background-color: rgba(23, 23, 23, 0.94);
+  color: var(--color-porcelain);
+  border: 1px solid rgba(198, 166, 106, 0.4);
+  border-radius: 30px;
+  padding: 0.55rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+}
+
+.demo-helper-bar button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.7rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.demo-helper-bar button:hover, .demo-helper-bar button.active {
+  border-color: var(--color-champagne);
+  color: var(--color-champagne);
+  background: rgba(198, 166, 106, 0.15);
+}
+
+/* Responsive Dashboard */
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dna-view-grid {
+    grid-template-columns: 1fr;
+  }
+  .match-result-card {
+    grid-template-columns: 1fr;
+  }
+  .diagnostic-metrics-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-main {
+    padding: 1.25rem;
+  }
+}
