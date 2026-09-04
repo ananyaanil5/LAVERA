@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Database initialization
+// Deployment trigger: 2026-09-04 v1.0.1
 const db = require('./config/database');
 
 // Middleware
