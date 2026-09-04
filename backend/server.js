@@ -38,11 +38,18 @@ app.use('/assets', express.static(path.join(frontendPath, 'assets')));
 app.use(express.static(frontendPath));
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
+    let dbStatus = 'CONNECTED';
+    try {
+        await db.get('SELECT 1 as test');
+    } catch (e) {
+        dbStatus = 'ERROR: ' + e.message;
+    }
     res.json({
         status: 'UP',
         brand: 'LAVÉRA',
         tagline: 'Care, Curated. Intelligent Garment Care.',
+        database: dbStatus,
         timestamp: new Date().toISOString()
     });
 });
@@ -107,6 +114,13 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: err.message || 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-    console.log(`LAVÉRA REST API Engine listening on http://localhost:${PORT}`);
+const server = app.listen(PORT, async () => {
+    try {
+        if (db && typeof db.ensureInitialized === 'function') {
+            await db.ensureInitialized();
+        }
+        console.log(`LAVÉRA REST API Engine listening on http://localhost:${PORT}`);
+    } catch (e) {
+        console.error('Database initialization during server boot encountered error:', e);
+    }
 });

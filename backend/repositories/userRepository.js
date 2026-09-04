@@ -2,7 +2,9 @@ const db = require('../config/database');
 
 class UserRepository {
     async findByEmail(email) {
-        return await db.get('SELECT * FROM users WHERE email = ?', [email.toLowerCase().trim()]);
+        if (!email) return null;
+        const normalized = String(email).toLowerCase().trim();
+        return await db.get('SELECT * FROM users WHERE LOWER(TRIM(email)) = ?', [normalized]);
     }
 
     async findById(id) {

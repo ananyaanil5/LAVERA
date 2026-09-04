@@ -502,9 +502,52 @@ async function seedDatabase() {
     console.log('LAVÉRA database seeding complete and verified!');
 }
 
-seedDatabase().then(() => {
-    process.exit(0);
-}).catch(err => {
-    console.error('Error seeding database:', err);
-    process.exit(1);
-});
+async function ensureDemoAccounts(targetDb = db) {
+    const customerHash = await bcrypt.hash('Demo@123', 10);
+    const adminHash = await bcrypt.hash('Admin@123', 10);
+
+    const requiredAccounts = [
+        { id: 'usr_ananya', name: 'Ananya Sharma', email: 'demo@lavera.com', password_hash: customerHash, role: 'CUSTOMER', phone: '+91 98201 54321', address: 'Apartment 14B, The Oberoi Enclave, Worli, Mumbai' },
+        { id: 'usr_admin', name: 'Alain Chevalier', email: 'admin@lavera.com', password_hash: adminHash, role: 'ADMIN', phone: '+91 98111 22334', address: 'LAVÉRA Central Atelier, Nariman Point, Mumbai' },
+        { id: 'usr_manager', name: 'Claire Delacroix', email: 'manager@lavera.com', password_hash: adminHash, role: 'MANAGER', phone: '+91 98333 44556', address: 'Operations Desk, Atelier Hub, Mumbai' }
+    ];
+
+    for (const acc of requiredAccounts) {
+        const existing = await targetDb.get('SELECT id, password_hash FROM users WHERE LOWER(TRIM(email)) = LOWER(TRIM(?))', [acc.email]);
+        if (!existing) {
+            await targetDb.run(
+                'INSERT INTO users (id, name, email, password_hash, role, phone, address, avatar_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                [acc.id, acc.name, acc.email, acc.password_hash, acc.role, acc.phone, acc.address, '/assets/images/avatar.jpg']
+            );
+            console.log(`[AUTH BOOT] Created missing demo user: ${acc.email} (${acc.role})`);
+        } else {
+            let valid = false;
+            try {
+                const targetPw = acc.role === 'CUSTOMER' ? 'Demo@123' : 'Admin@123';
+                valid = await bcrypt.compare(targetPw, existing.password_hash);
+            } catch (e) {
+                valid = false;
+            }
+            if (!valid) {
+                await targetDb.run(
+                    'UPDATE users SET password_hash = ? WHERE id = ?',
+                    [acc.password_hash, existing.id]
+                );
+                console.log(`[AUTH BOOT] Refreshed valid password hash for demo user: ${acc.email}`);
+            }
+        }
+    }
+}
+
+if (require.main === module) {
+    seedDatabase().then(() => {
+        console.log('Seeding process finished.');
+        process.exit(0);
+    }).catch(err => {
+        console.error('Error seeding database:', err);
+        process.exit(1);
+    });
+}
+
+module.exports = { seedDatabase, ensureDemoAccounts };
+

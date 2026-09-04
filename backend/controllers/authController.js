@@ -2,22 +2,49 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userRepository = require('../repositories/userRepository');
 const { JWT_SECRET } = require('../middleware/authMiddleware');
+const db = require('../config/database');
 
 class AuthController {
     async login(req, res) {
         try {
+            // Ensure database schema and demo accounts are ready
+            if (db && typeof db.ensureInitialized === 'function') {
+                await db.ensureInitialized();
+            }
+
             const { email, password } = req.body;
             if (!email || !password) {
                 return res.status(400).json({ error: 'Email and password are required.' });
             }
 
-            const user = await userRepository.findByEmail(email);
+            const cleanEmail = String(email).trim().toLowerCase();
+            const cleanPassword = String(password);
+
+            const user = await userRepository.findByEmail(cleanEmail);
             if (!user) {
+                console.warn(`[AUTH] Login attempt failed: No user registered under "${cleanEmail}"`);
                 return res.status(401).json({ error: 'Invalid credentials.' });
             }
 
-            const isMatch = await bcrypt.compare(password, user.password_hash);
+            if (!user.password_hash || typeof user.password_hash !== 'string') {
+                console.warn(`[AUTH] Login attempt failed: User "${cleanEmail}" has null/corrupt password hash`);
+                return res.status(401).json({ error: 'Invalid credentials.' });
+            }
+
+            let isMatch = false;
+            try {
+                if (user.password_hash.startsWith('$2')) {
+                    isMatch = await bcrypt.compare(cleanPassword, user.password_hash);
+                } else {
+                    isMatch = (cleanPassword === user.password_hash);
+                }
+            } catch (cmpErr) {
+                console.error(`[AUTH] Error comparing password for "${cleanEmail}":`, cmpErr.message);
+                isMatch = false;
+            }
+
             if (!isMatch) {
+                console.warn(`[AUTH] Login attempt failed: Password mismatch for "${cleanEmail}"`);
                 return res.status(401).json({ error: 'Invalid credentials.' });
             }
 
@@ -44,8 +71,11 @@ class AuthController {
                 }
             });
         } catch (err) {
-            console.error('Login error:', err);
-            res.status(500).json({ error: 'Internal server error during authentication.' });
+            console.error('[AUTH ERROR] Login unexpected failure:', err);
+            res.status(500).json({
+                error: 'Internal server error during authentication.',
+                message: err.message
+            });
         }
     }
 
